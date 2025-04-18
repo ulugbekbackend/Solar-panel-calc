@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Panel Calculator</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        input, button { margin: 5px; padding: 8px; }
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    </style>
+</head>
+<body>
+    <h2>Quyosh panellari uchun Kalkulator</h2>
+    <label>Qurilma nomi: <input type="text" id="device"></label>
+    <label>Quvvati (W): <input type="number" id="power"></label>
+    <label>Qurilmani ishlatish vaqti (Soat/Kun): <input type="number" id="hours"></label>
+    <button onclick="addDevice()">Qurilmani qo'shish</button>
+    
+    <h3>Qurilmalar ro'yxati</h3>
+    <table id="deviceTable">
+        <tr>
+            <th>Qurilma nomi</th>
+            <th>Quvvati (W)</th>
+            <th>Soat/Kun</th>
+        </tr>
+    </table>
+    
+    <h3>Quyosh panel turlari</h3>
+    <label>Quyoshning nur sochish vaqti (Soat/Kun): <input type="number" id="sunHours" value="5"></label>
+    <label>Quyosh panel quvvati (W): <input type="number" id="panelPower" value="300"></label>
+    <button onclick="calculateSolar()">Hisoblash</button>
+    
+    <h3>Natijalar</h3>
+    <p id="result"></p>
+
+    <script>
+        let devices = [];
+
+        function addDevice() {
+            let name = document.getElementById("device").value;
+            let power = document.getElementById("power").value;
+            let hours = document.getElementById("hours").value;
+            if (!name || !power || !hours) return alert("Please fill all fields");
+            devices.push({ name, power: parseFloat(power), hours_per_day: parseFloat(hours) });
+            updateTable();
+        }
+
+        function updateTable() {
+            let table = document.getElementById("deviceTable");
+            table.innerHTML = '<tr><th>Qurilma nomi</th><th>Quvvati (W)</th><th>Soat/Kun</th></tr>';
+            devices.forEach(d => {
+                let row = table.insertRow();
+                row.insertCell(0).innerText = d.name;
+                row.insertCell(1).innerText = d.power;
+                row.insertCell(2).innerText = d.hours_per_day;
+            });
+        }
+
+        function calculateSolar() {
+            let sunHours = parseFloat(document.getElementById("sunHours").value);
+            let panelPower = parseFloat(document.getElementById("panelPower").value);
+            if (!sunHours || !panelPower) return alert("Please fill all fields");
+            
+            let totalEnergyNeeded = devices.reduce((sum, d) => sum + (d.power * d.hours_per_day), 0);
+            let requiredPanels = totalEnergyNeeded / (panelPower * sunHours);
+            
+            document.getElementById("result").innerText = `Umumiy energiya ehtiyoji: ${totalEnergyNeeded} Wh\nTavsiya etilgan panellar soni: ${requiredPanels.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
