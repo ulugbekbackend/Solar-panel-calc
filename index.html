@@ -1,73 +1,389 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solar Panel Calculator</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        input, button { margin: 5px; padding: 8px; }
-        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quyosh Panel Kalkulyatori</title>
+  <style>
+    :root {
+      --primary-color: #0077cc;
+      --text-light: white;
+      --box-bg: white;
+      --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      --border-radius: 10px;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      position: relative;
+      overflow: hidden;
+    }
+
+    header img.hero {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+    }
+
+    header h1 {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--text-light);
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 2.5rem;
+      text-align: center;
+    }
+
+    main {
+      max-width: 850px;
+      margin: 40px auto;
+      padding: 30px;
+      background-color: var(--box-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      border: 1px solid #ddd;
+      position: relative;
+      z-index: 2;
+    }
+
+    h2, h3 {
+      color: var(--primary-color);
+      margin-top: 30px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px 0;
+      background-color: var(--primary-color);
+      color: var(--text-light);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    #result {
+      background-color: #e8f4ff;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+      white-space: pre-line;
+      border: 1px dashed #0077cc;
+    }
+
+    @media (max-width: 768px) {
+      header img.hero {
+        height: 300px;
+      }
+      header h1 {
+        font-size: 1.8rem;
+        padding: 8px 15px;
+      }
+      main {
+        margin: 20px 15px;
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header img.hero {
+        height: 200px;
+      }
+      header h1 {
+        font-size: 1.4rem;
+      }
+      input, button {
+        width: 100%;
+      }
+      th, td {
+        font-size: 14px;
+      }
+    }
+    footer {
+        background-color: #0077cc;
+        color: white;
+        text-align: center;
+        padding: 20px 10px;
+        margin-top: 40px;
+        font-size: 14px;
+        }
+
+        .footer-container a {
+        color: #e0f0ff;
+        text-decoration: none;
+        }
+
+        .footer-container a:hover {
+        text-decoration: underline;
+        }
+
+  </style>
 </head>
 <body>
-    <h2>Quyosh panellari uchun Kalkulator</h2>
-    <label>Qurilma nomi: <input type="text" id="device"></label>
-    <label>Quvvati (W): <input type="number" id="power"></label>
-    <label>Qurilmani ishlatish vaqti (Soat/Kun): <input type="number" id="hours"></label>
-    <button onclick="addDevice()">Qurilmani qo'shish</button>
-    
-    <h3>Qurilmalar ro'yxati</h3>
+  <header>
+    <img src="images/solar-panel-home.jpg" alt="Quyosh panellari" class="hero">
+    <h1>Quyosh Panel Kalkulyatori</h1>
+  </header>
+
+  <main>
+    <h2>Qurilmalarni qo‘shish</h2>
+    <label>Qurilma nomi</label>
+    <input type="text" id="device">
+
+    <label>Quvvati (W)</label>
+    <input type="number" id="power">
+
+    <label>Ishlash vaqti (soat/kun)</label>
+    <input type="number" id="hours">
+
+    <button onclick="addDevice()">Qurilmani qo‘shish</button>
+
+    <h3>Qurilmalar ro‘yxati</h3>
     <table id="deviceTable">
-        <tr>
-            <th>Qurilma nomi</th>
-            <th>Quvvati (W)</th>
-            <th>Soat/Kun</th>
-        </tr>
+      <tr>
+        <th>Qurilma nomi</th>
+        <th>Quvvati (W)</th>
+        <th>Soat/Kun</th>
+      </tr>
     </table>
-    
-    <h3>Quyosh panel turlari</h3>
-    <label>Quyoshning nur sochish vaqti (Soat/Kun): <input type="number" id="sunHours" value="5"></label>
-    <label>Quyosh panel quvvati (W): <input type="number" id="panelPower" value="300"></label>
+
     <button onclick="calculateSolar()">Hisoblash</button>
-    
+
     <h3>Natijalar</h3>
-    <p id="result"></p>
+    <p id="result">Hozircha hech qanday hisob-kitob qilinmagan.</p>
 
-    <script>
-        let devices = [];
+    <h3>O‘zbekistondagi mavjud quyosh panellari</h3>
+    <div id="panelCards" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;"></div>
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p>&copy; 2025 Quyosh Panel Kalkulyatori. Barcha huquqlar himoyalangan.</p>
+      <p><a href="https://qpower.uz" target="_blank">Ma'lumot manbasi: QPower.uz</a></p>
+      <p>Dasturchi: <a href="https://ulugbekdev.uz" target="_blank">UlugbekDev</a></p>
+    </div>
+  </footer>
+  
 
-        function addDevice() {
-            let name = document.getElementById("device").value;
-            let power = document.getElementById("power").value;
-            let hours = document.getElementById("hours").value;
-            if (!name || !power || !hours) return alert("Please fill all fields");
-            devices.push({ name, power: parseFloat(power), hours_per_day: parseFloat(hours) });
-            updateTable();
-        }
+  <script>
+    let devices = [];
 
-        function updateTable() {
-            let table = document.getElementById("deviceTable");
-            table.innerHTML = '<tr><th>Qurilma nomi</th><th>Quvvati (W)</th><th>Soat/Kun</th></tr>';
-            devices.forEach(d => {
-                let row = table.insertRow();
-                row.insertCell(0).innerText = d.name;
-                row.insertCell(1).innerText = d.power;
-                row.insertCell(2).innerText = d.hours_per_day;
-            });
-        }
+    const panels = [
+  {
+    "name": "QPower 600W, QPM-600T",
+    "power": 600,
+    "image": "images/panel-1.webp",
+    "link": "https://qpower.uz/uz/mahsulot/quyosh-paneli-qpower-550w-qpm-550s-copy/"
+  },
+  {
+    "name": "QPower 550W, QPM-550S",
+    "power": 550,
+    "image": "images/panel-1.webp",
+    "link": "https://qpower.uz/uz/mahsulot/solnechnaya-panel-550-vt-qpower-qpm-550s-3-2/"
+  },
+  {
+    "name": "Longi Solar 550W, LR5-72HPH-550M",
+    "power": 550,
+    "image": "images/panel-1.webp",
+    "link": "https://qpower.uz/uz/mahsulot/solnechnaya-panel-550-vt-longi-solar-lr5-72hph-550w-2/"
+  },
+  {
+    "name": "Jinko Tiger Pro 555W, JKM555M-72HL4-V",
+    "power": 555,
+    "image": "images/panel-1.webp",
+    "link": "https://qpower.uz/uz/mahsulot/solnechnaya-panel-555-vt-jinko-tiger-neo-n-type-72hl4-v-555-575w-2/"
+  },
+  {
+    "name": "QPower 405W, QPM-405S",
+    "power": 405,
+    "image": "images/panel-1.webp",
+    "link": "https://qpower.uz/uz/mahsulot/solnechnaya-panel-qpower-410vt-qpm-410s/"
+  },
+  {
+    "name": "QPower 650W, QPM-650S",
+    "power": 650,
+    "image": "images/panel-2.webp",
+    "link": "https://qpower.uz/uz/mahsulot/solnechnaya-panel-qpower-650vt-qpm-650s/"
+  },
+  {
+    "name": "QPower 470W TOPCon N-Type, QPM-470T",
+    "power": 470,
+    "image": "images/panel-1.webp",
+    "link": "https://qpower.uz/uz/mahsulot/solnechnaya-panel-qpower-470vt-n-type-qpm-470t/"
+  },
+  {
+    "name": "QPower 415W, QPM-415S",
+    "power": 415,
+    "image": "images/panel-1.webp",
+    "link": "https://qpower.uz/uz/mahsulot/solnechnaya-panel-qpower-415vt-qpm-415s/"
+  },
+  {
+    "name": "QPower 430W TOPCon N-Type, QPM-430T",
+    "power": 430,
+    "image": "images/panel-1.webp",
+    "link": "https://qpower.uz/uz/mahsulot/solnechnaya-panel-qpower-430vt-topcon-n-type-qpm-430t/"
+  },
+  {
+    "name": "QPower 450W, QPM-450S",
+    "power": 450,
+    "image": "images/panel-1.webp",
+    "link": "https://qpower.uz/uz/mahsulot/solnechnaya-panel-qpower-450vt-qpm-450s/"
+  },
+  {
+    "name": "QPower 465W, QPM-465S",
+    "power": 465,
+    "image": "images/panel-1.webp",
+    "link": "https://qpower.uz/uz/mahsulot/solnechnaya-panel-qpower-465vt-qpm-465s/"
+  },
+  {
+    "name": "QPower 450W To‘liq qora, QPM-450S",
+    "power": 450,
+    "image": "images/panel-3.webp",
+    "link": "https://qpower.uz/uz/mahsulot/solnechnaya-panel-qpower-450vt-full-black-qpm-450s/"
+  },
+  {
+    "name": "QPower 500W, QPM-500S",
+    "power": 500,
+    "image": "images/panel-1.webp",
+    "link": "https://qpower.uz/uz/mahsulot/solnechnaya-panel-qpower-500vt-qpm-500s/"
+  },
+  {
+    "name": "QPower 525W TOPCon N-Type, QPM-525T",
+    "power": 525,
+    "image": "images/panel-1.webp",
+    "link": "https://qpower.uz/uz/mahsulot/solnechnaya-panel-qpower-525vt-topcon-n-type-qpm-525t/"
+  },
+  {
+    "name": "QPower 560W TOPCon N-Type Bifacial, QPM-560T",
+    "power": 560,
+    "image": "images/panel-4.webp",
+    "link": "https://qpower.uz/uz/mahsulot/solnechnaya-panel-qpower-560vt-topcon-n-type-bifacial-qpm-560t/"
+  },
+  {
+    "name": "QPower 580W TOPCon N-Type Bifacial, QPM-580T",
+    "power": 580,
+    "image": "images/panel-4.webp",
+    "link": "https://qpower.uz/uz/mahsulot/solnechnaya-panel-qpower-580vt-topcon-n-type-bifacial-qpm-580t-kopirovat/"
+  },
+  {
+    "name": "QPower 550W Bifacial, QPM-550S",
+    "power": 550,
+    "image": "images/panel-4.webp",
+    "link": "https://qpower.uz/uz/mahsulot/solnechnaya-panel-qpower-550vt-bifacial-qpm-550s/"
+  },
+  {
+    "name": "QPower 560W TOPCon N-Type, QPM-560T",
+    "power": 560,
+    "image": "images/panel-1.webp",
+    "link": "https://qpower.uz/uz/mahsulot/solnechnaya-panel-qpower-560vt-topcon-n-type-qpm-560t/"
+  },
+  {
+    "name": "QPower 580W TOPCon N-Type, QPM-580T",
+    "power": 580,
+    "image": "images/panel-1.webp",
+    "link": "https://qpower.uz/uz/mahsulot/solnechnaya-panel-qpower-580vt-topcon-n-type-qpm-580t/"
+  }
+]
+;
 
-        function calculateSolar() {
-            let sunHours = parseFloat(document.getElementById("sunHours").value);
-            let panelPower = parseFloat(document.getElementById("panelPower").value);
-            if (!sunHours || !panelPower) return alert("Please fill all fields");
-            
-            let totalEnergyNeeded = devices.reduce((sum, d) => sum + (d.power * d.hours_per_day), 0);
-            let requiredPanels = totalEnergyNeeded / (panelPower * sunHours);
-            
-            document.getElementById("result").innerText = `Umumiy energiya ehtiyoji: ${totalEnergyNeeded} Wh\nTavsiya etilgan panellar soni: ${requiredPanels.toFixed(2)}`;
-        }
-    </script>
+    function addDevice() {
+      const name = document.getElementById("device").value;
+      const power = parseFloat(document.getElementById("power").value);
+      const hours = parseFloat(document.getElementById("hours").value);
+      if (!name || isNaN(power) || isNaN(hours)) {
+        alert("Iltimos, barcha maydonlarni to‘ldiring.");
+        return;
+      }
+      devices.push({ name, power, hours_per_day: hours });
+      updateTable();
+      document.getElementById("device").value = "";
+      document.getElementById("power").value = "";
+      document.getElementById("hours").value = "";
+    }
+
+    function updateTable() {
+      const table = document.getElementById("deviceTable");
+      table.innerHTML = '<tr><th>Qurilma nomi</th><th>Quvvati (W)</th><th>Soat/Kun</th></tr>';
+      devices.forEach(device => {
+        const row = table.insertRow();
+        row.insertCell(0).innerText = device.name;
+        row.insertCell(1).innerText = device.power;
+        row.insertCell(2).innerText = device.hours_per_day;
+      });
+    }
+
+    function calculateSolar() {
+      const sunHours = 6;
+      const totalEnergy = devices.reduce((sum, d) => sum + (d.power * d.hours_per_day), 0);
+      document.getElementById("result").innerText =
+        `Umumiy kunlik energiya ehtiyoji: ${totalEnergy.toFixed(2)} Wh\nQuyoshli soat (Foydali quyosh soati): ${sunHours} soat/kun`;
+
+      const container = document.getElementById("panelCards");
+      container.innerHTML = "";
+
+      panels.forEach(panel => {
+        const quantity = Math.ceil(totalEnergy / (panel.power * sunHours));
+
+        const card = document.createElement("div");
+        card.className = "panel-card";
+        card.style = `width: 250px; background: #fff; border: 1px solid #ccc; border-radius: 10px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; text-align: center;`;
+
+        card.innerHTML = `
+          <img src="${panel.image}" alt="${panel.name}" style="width: 100%; height: 150px; object-fit: cover;">
+          <div class="card-body" style="padding: 10px;">
+            <h4 style="margin: 10px 0 5px; font-size: 1.1rem;">${panel.name}</h4>
+            <p>Quvvat: ${panel.power} W</p>
+            <p><strong>Kerakli soni:</strong> ${quantity} dona</p>
+            <a href="${panel.link}" target="_blank" style="color: #0077cc; text-decoration: none; font-weight: bold;">Batafsil</a>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+  </script>
 </body>
 </html>
